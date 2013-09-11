@@ -45,13 +45,12 @@ Gu.prototype._reload = function () {
     try {
       var fn = require(path.join(this._watchdir, f));
       if (!fn || 'function' !== typeof fn) {
-        throw new Error("module.exports from file " + file + " in scripts directory is not a function");
+        throw new Error("module.exports from file " + f + " in scripts directory is not a function");
       }
       fn(this);
     }
-    }
     catch (e) {
-      console.error('FAILED TO LOAD', file);
+      console.error('FAILED TO LOAD', f);
       console.log(e.stack);
     }
   }
