@@ -4,8 +4,8 @@ var files = [
 ];
 var scriptPath = require('path').join(__dirname, 'scripts');
 
-var gu = require('gu')("irc.rd.tandberg.com", "h00t", {
-  userName: 'arstast',
+var gu = require('gu')("irc.quakenet.org", "testBot123", {
+  userName: 'failBot',
   debug: false,
-  channels: ['#testor']
+  channels: ['#testChan']
 }, scriptPath, files);
