@@ -26,28 +26,32 @@ function Gu(server, name, opts, scriptPath, files) {
   this.bot.addListener('error', function () {}); // never care about errors
 
   this._watchdir = scriptPath;
-  this._files = files || [];
-  var reloader = hotReload.create(require);
-  files.forEach(function (f) {
-    reloader.watch(path.join(scriptPath, f));
+  this._files = (files || []).map(function (f) {
+    return path.join(scriptPath, f);
   });
-  reloader
+  this._reload();
+  hotReload.create(require)
+    .watch(this._files)
+    .uncache(scriptPath, true)
     .afterReload(this._reload.bind(this))
     .start();
-  this._reload();
 }
 
 Gu.prototype._reload = function () {
+  // TODO: don't kill ALL handlers.. (this will reset all their state..)
   this._handlers = [];
   // require all files on the passed in scripts list to reattach handlers
   for (var i = 0; i < this._files.length; i += 1) {
     var f = this._files[i];
     try {
-      var fn = require(path.join(this._watchdir, f));
+      var fn = require(f);
       if (!fn || 'function' !== typeof fn) {
         throw new Error("module.exports from file " + f + " in scripts directory is not a function");
       }
       fn(this);
+      console.log('Re-attached handlers for', f);
+      //console.log(fn + '');
+      
     }
     catch (e) {
       console.error('FAILED TO LOAD', f);

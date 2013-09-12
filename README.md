@@ -36,6 +36,10 @@ A more extensive example is avaiable in the [example directory](https://github.c
 ## Future
 Since `gu` handlers are essentially transportless response functions, if your handler packages does not include the `gu` dependency, you can essentially release the behaviour, and let people include it using the gu transport they want. XMPP should be a easy to implement as a drop in replacement for gu (TODO).
 
+## Caveats
+The script path you specify to `gu` should only contain the handler functions. If you point the path at your `lib` dir, then it may reload all the files in that directory when you change one of your handlers.
+
+
 ## Installation
 
 ```bash
