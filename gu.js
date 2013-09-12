@@ -30,6 +30,8 @@ function Gu(server, name, opts, scriptPath, files) {
     return path.join(scriptPath, f);
   });
   this._reload();
+  // TODO: hotReload will uncache everything in the scripts directory
+  // thus clearing state kept in any of these, can this be remedied?
   hotReload.create(require)
     .watch(this._files)
     .uncache(scriptPath, true)
@@ -38,7 +40,6 @@ function Gu(server, name, opts, scriptPath, files) {
 }
 
 Gu.prototype._reload = function () {
-  // TODO: don't kill ALL handlers.. (this will reset all their state..)
   this._handlers = [];
   // require all files on the passed in scripts list to reattach handlers
   for (var i = 0; i < this._files.length; i += 1) {
@@ -50,12 +51,10 @@ Gu.prototype._reload = function () {
       }
       fn(this);
       console.log('Re-attached handlers for', f);
-      //console.log(fn + '');
-      
     }
     catch (e) {
       console.error('FAILED TO LOAD', f);
-      console.log(e.stack);
+      console.error(e.stack);
     }
   }
 };
