@@ -50,7 +50,7 @@ Gu.prototype._reload = function () {
         throw new Error("module.exports from file " + f + " in scripts directory is not a function");
       }
       fn(this);
-      console.log('Re-attached handlers for', f);
+      console.log('Loaded handlers from', f);
     }
     catch (e) {
       console.error('FAILED TO LOAD', f);
