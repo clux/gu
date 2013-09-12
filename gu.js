@@ -10,9 +10,13 @@ function Gu(server, name, opts, scriptPath, files) {
   }
   this.bot = new irc.Client(server, name, opts);
 
+  var writer = this._write.bind(this);
+  // TODO: allow pm listens?
+  //this.bot.addListener('pm', function (nick, msg) {
+  //  writer(msg, null, nick);
+  //});
   var chanReg = new RegExp('^' + name + '[\\s,\\:](.*)');
-  this.bot.addListener('message', (function (from, to, msg) {
-    // TODO: if privmessage pass straight to _write without chanReg
+  this.bot.addListener('message', function (from, to, msg) {
     if (!chanReg.test(msg)) {
       return; // message not for me
     }
@@ -20,8 +24,8 @@ function Gu(server, name, opts, scriptPath, files) {
     if (!content) {
       return; // empty statement
     }
-    this._write(content, to, from);
-  }).bind(this));
+    writer(content, to, from);
+  });
 
   this.bot.addListener('error', function () {}); // never care about errors
 
@@ -33,8 +37,9 @@ function Gu(server, name, opts, scriptPath, files) {
   // TODO: hotReload will uncache everything in the scripts directory
   // thus clearing state kept in any of these, can this be remedied?
   hotReload.create(require)
-    .watch(this._files)
+    .watch(scriptPath)
     .uncache(scriptPath, true)
+    .reload(scriptPath, true)
     .afterReload(this._reload.bind(this))
     .start();
 }
@@ -47,7 +52,9 @@ Gu.prototype._reload = function () {
     try {
       var fn = require(f);
       if (!fn || 'function' !== typeof fn) {
-        throw new Error("module.exports from file " + f + " in scripts directory is not a function");
+        throw new Error("module.exports from file " +
+          f + " in scripts directory is not a function"
+        );
       }
       fn(this);
       console.log('Loaded handlers from', f);
@@ -64,7 +71,7 @@ Gu.prototype._write = function (content, chan, from) {
     var handler = this._handlers[i];
     if (handler.reg.test(content)) {
       var match = content.match(handler.reg);
-      this.current = chan; // callback will .say to where it came from
+      this.current = chan || from; // callback will .say to where it came from
       handler.cb.apply(this, match.slice(1).concat(from)); // `from` sometimes needed
       break; // match found - job's done
     }
