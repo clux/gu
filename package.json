@@ -10,7 +10,7 @@
   "keywords": [
     "irc",
     "bot",
-    "hubot",
+    "regex",
     "hotswap"
   ],
   "main": "gu.js",
