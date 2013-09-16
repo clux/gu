@@ -2,7 +2,7 @@
   "name": "gu",
   "description": "An IRC bot addon to 'irc' with live code reloading and regex handlers.",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/clux/gu.git"

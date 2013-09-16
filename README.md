@@ -33,6 +33,13 @@ Changing the handler in `like.js` will result in different behaviour without hav
 
 A more extensive example is avaiable in the [example directory](https://github.com/clux/gu/blob/master/example/).
 
+## Complete examples
+The following personal bots are all built on `gu`:
+
+- [cleverbot-irc](http://github.com/clux/cleverbot-irc)
+- [wolfram-irc](http://github.com/clux/wolfram-irc)
+- [curvefever-stats](http://github.com/clux/curvefever-stats)
+
 ## Future
 Since `gu` handlers are essentially transportless response functions, if your handler packages does not include the `gu` dependency, you can essentially release the behaviour, and let people include it using the gu transport they want. XMPP should be a easy to implement as a drop in replacement for gu (TODO).
 
