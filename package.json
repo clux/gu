@@ -18,8 +18,8 @@
     "test": "tap test/*.js"
   },
   "dependencies": {
-    "irc": "~0.3.6",
-    "hot-reload": "~1.2.14"
+    "hot-reload": "~1.2.14",
+    "logule": "~2.0.0"
   },
   "devDependencies": {
     "tap": "~0.4.2"
