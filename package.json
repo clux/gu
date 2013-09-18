@@ -1,6 +1,6 @@
 {
   "name": "gu",
-  "description": "An IRC bot addon to 'irc' with live code reloading and regex handlers.",
+  "description": "Streaming bot makers library with hot code reloading and regex handlers",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "version": "0.1.0",
   "repository": {
@@ -8,10 +8,10 @@
     "url": "git://github.com/clux/gu.git"
   },
   "keywords": [
-    "irc",
     "bot",
     "regex",
-    "hotswap"
+    "hotswap",
+    "duplex"
   ],
   "main": "gu.js",
   "scripts": {
