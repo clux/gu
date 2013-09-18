@@ -1,11 +1,15 @@
+#!/usr/bin/env node
+var scriptPath = require('path').join(__dirname, 'scripts');
 var files = [
   'dice.js',
   'weather.js'
 ];
-var scriptPath = require('path').join(__dirname, 'scripts');
+var gu = require('gu')(scriptPath, files);
 
-var gu = require('gu')("irc.quakenet.org", "testBot123", {
+var ircStream = require('irc-stream')("irc.quakenet.org", "testBotz", {
   userName: 'failBot',
   debug: false,
-  channels: ['#testChan']
-}, scriptPath, files);
+  channels: ["#blahcurve"]
+});
+
+ircStream.pipe(gu).pipe(ircStream);
