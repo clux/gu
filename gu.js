@@ -9,24 +9,28 @@ function Gu(scriptPath, files, opts) {
   }
   Duplex.call(this, {objectMode: true});
   opts = opts || {};
+
   this.files = [];
   for (var i = 0; i < (files || []).length; i += 1) {
     var f = join(scriptPath, files[i]);
     this.files.push(f);
   }
 
-  this.reload();
-  hotReload.create(require)
-    .watch(scriptPath)
-    .uncache(scriptPath, true)
-    .reload(scriptPath, true)
-    .afterReload(this.reload.bind(this))
-    .start();
+  this.reload(true);
+  if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
+    hotReload.create(require)
+      .loggingEnabled(false) // TODO: option
+      .watch(scriptPath)
+      .uncache(scriptPath, true)
+      .reload(scriptPath, true)
+      .afterReload(this.reload.bind(this))
+      .start();
+  }
 }
 Gu.prototype = Object.create(Duplex.prototype);
 
 // this should not be used by implementations
-Gu.prototype.reload = function () {
+Gu.prototype.reload = function (first) {
   this.handlers = [];
   // require all files on the passed in scripts list to reattach handlers
   for (var i = 0; i < this.files.length; i += 1) {
@@ -39,7 +43,9 @@ Gu.prototype.reload = function () {
         );
       }
       fn(this/*, this._state[f]*/);
-      log.info('Loaded handlers from', f);
+      if (!first) {
+        log.info('Loaded handlers from', f);
+      }
     }
     catch (e) {
       log.error('FAILED TO LOAD', f);
