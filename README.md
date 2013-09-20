@@ -1,5 +1,6 @@
 # Gu [![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu)
 
+TODO: david
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
 It has three main features:
@@ -45,10 +46,29 @@ The following personal bots are all built on `gu`:
 
 - [cleverbot-irc](http://github.com/clux/cleverbot-irc)
 - [wolfram-irc](http://github.com/clux/wolfram-irc)
-- [curvefever-stats](http://github.com/clux/curvefever-stats)
+- [curvefever-bot](http://github.com/clux/curvefever-bot)
+
+## Stream Specification
+A `gu` instance expects to have objects written to it, and will new objects readable on the other end.
+
+Therefore, the sensible interface (unless you are doing some weird asymmetrical connection setup), is a `Duplex` stream in [`objectMode`](http://nodejs.org/api/stream.html#stream_object_mode).
+
+### Inputs & Outputs
+Expected input objects:
+
+```js
+{
+  user: String, // unique identifier of user
+  message: String, // raw message to be matched by gu
+}
+```
+
+Output objects are identical. The `user` property is passed stright through and is can be anything as long as it can be used to again identify the user to send the response to on the other end. For `irc-stream` it is either the string: "#chan:user" for a channel message or "user" for a personal message.
+
+An optional `name` property may be set on the input for the convenience of gu handlers - this name will be passed through to the handlers (after the `say` cb) and is assumed to be human readable.
 
 ## Future
-Alternative transport duplex stream modules.
+Alternative transport modules.
 
 ## Caveats
 The script path you specify to `gu` should only contain the handler functions. If you point the path at your `lib` dir, then it may reload all the files in that directory when you change one of your handlers.
