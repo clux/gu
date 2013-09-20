@@ -1,3 +1,9 @@
+0.1.1 / 2013-09-XX
+==================
+  * Fixed description.
+  * Reloading now optional
+  * Logging improvements
+
 0.1.0 / 2013-09-18
 ==================
   * Entire interface changed - module now streaming
