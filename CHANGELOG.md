@@ -1,4 +1,4 @@
-0.1.1 / 2013-09-XX
+0.1.1 / 2013-09-20
 ==================
   * Fixed description.
   * Reloading now optional
