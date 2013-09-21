@@ -1,6 +1,5 @@
-# Gu [![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu)
+# Gu [![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu) [![Dependency Status](https://david-dm.org/clux/gu.png)](https://david-dm.org/clux/gu)
 
-TODO: david
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
 It has three main features:
