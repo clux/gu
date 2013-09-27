@@ -1,3 +1,7 @@
+0.2.0 / 2013-09-27
+==================
+  * `say` callback now always the first parameter in `.handle` functions
+
 0.1.1 / 2013-09-20
 ==================
   * Fixed description.

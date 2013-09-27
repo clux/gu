@@ -65,7 +65,7 @@ Gu.prototype._write = function (obj, encoding, cb) {
       log.trace(user + ':' + msg, '- matched:', handler.reg);
       var match = msg.match(handler.reg);
       var preparedSay = this.say.bind(this, user);
-      var args = match.slice(1).concat(preparedSay, obj.name || obj.user);
+      var args = [preparedSay].concat(match.slice(1), obj.name || obj.user);
 
       handler.cb.apply(this, args);
       break; // match found - job's done

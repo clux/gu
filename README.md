@@ -1,4 +1,4 @@
-# Gu [![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu) [![Dependency Status](https://david-dm.org/clux/gu.png)](https://david-dm.org/clux/gu)
+# gu [![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu) [![Dependency Status](https://david-dm.org/clux/gu.png)](https://david-dm.org/clux/gu)
 
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
@@ -27,8 +27,8 @@ Then, put a file in your scriptpath, `like.js`, say, and add handlers therein:
 
 ```javascript
 module.exports = function (gu) {
-  gu.handle(/^i like your (\w*)$/, function (what) {
-    gu.say('i has ' + what + ' :O');
+  gu.handle(/^i like your (\w*)$/, function (say, what) {
+    say('i has ' + what + ' :O');
   });
 };
 ```
