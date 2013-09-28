@@ -64,7 +64,7 @@ Expected input objects:
 
 Output objects are identical. The `user` property is passed stright through and is can be anything as long as it can be used to again identify the user to send the response to on the other end. For `irc-stream` it is either the string: "#chan:user" for a channel message or "user" for a personal message.
 
-An optional `name` property may be set on the input for the convenience of gu handlers - this name will be passed through to the handlers (after the `say` cb) and is assumed to be human readable.
+An optional `name` property may be set on the input for the convenience of gu handlers - this name will be passed through to the handlers as the last argument and is assumed to be human readable.
 
 ## Future
 Alternative transport modules.
