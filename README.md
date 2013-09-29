@@ -9,7 +9,7 @@ It has three main features:
 - streaming input and output allows for easy control, extensibility and transport-less testing
 
 ## Usage
-Find a library that does the transport you want, say [irc-streams](https://npmjs.org/package/irc-stream):
+Find a library that does the transport you want, say [irc-stream](https://npmjs.org/package/irc-stream):
 
 Create a main file; `bot.js`:
 
