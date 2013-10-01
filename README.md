@@ -6,7 +6,7 @@ It has three main features:
 
 - regular expression handlers in a style similar to [hubot](https://github.com/github/hubot) (but without all those annoying environment variables and coffee-script..)
 - hot code reloading of specified files (without the bot having to leave the server)
-- streaming input and output allows for easy control, extensibility and transport-less testing
+- streaming input and output allows for easy control, extensibility and transport-less testing of handlers
 
 ## Usage
 Find a library that does the transport you want, say [irc-stream](https://npmjs.org/package/irc-stream):
@@ -15,7 +15,7 @@ Create a main file; `bot.js`:
 
 ```javascript
 var gu = require('gu')(scriptPath, files);
-var ircStream = require('ircStream')(name, server, {chan: chan});
+var ircStream = require('ircStream')(name, server, {chan: [chan]});
 
 ircStream.pipe(gu).pipe(ircStream);
 ```
@@ -70,9 +70,25 @@ An optional `name` property may be set on the input for the convenience of gu ha
 Alternative transport modules.
 
 ## Caveats
+### What files are reloaded
 The script path you specify to `gu` should only contain the handler functions. If you point the path at your `lib` dir, then it may reload all the files in that directory when you change one of your handlers.
 
 If you have multiple handler files in your `scriptdir`, then if one changes, all these files will be reloaded, and any internal state in them will be cleared. To get around this, persist important state elsewhere.
+
+### When things can still go wrong
+If you save one of the reload-watched files, and there's a syntax error, we will catch this error for you. An exception and a stack trace will be logged and all the handlers from the file with the error will be inactive.
+
+However, it is possible to save a file that looks valid but will have a runtime error, for instance referencing an undefined variable. This we will not guard on (otherwise we'd have to try-catch _everything_), and your bot will crash. Thus, you should lint on save to prevent this from happening.
+
+## Options
+A few options can be passed along to the `gu` instance as the third parameter, these are:
+
+```js
+{
+  noReload: Boolean, // disable the hot-reload module (a must for handler tests)
+  hotLogging: Boolean // enable logging from the hot-reload module
+}
+```
 
 ## Installation
 
