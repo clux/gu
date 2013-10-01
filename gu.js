@@ -1,5 +1,5 @@
 var log = require('logule').init(module);
-var join = require('path').join;
+var path = require('path');
 var hotReload = require('hot-reload');
 var Duplex = require('stream').Duplex;
 
@@ -7,19 +7,20 @@ function Gu(scriptPath, files, opts) {
   if (!(this instanceof Gu)) {
     return new Gu(scriptPath, files, opts);
   }
+  scriptPath = path.resolve(scriptPath);
   Duplex.call(this, {objectMode: true});
   opts = opts || {};
 
   this.files = [];
   for (var i = 0; i < (files || []).length; i += 1) {
-    var f = join(scriptPath, files[i]);
+    var f = path.join(scriptPath, files[i]);
     this.files.push(f);
   }
 
   this.reload(true);
   if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
     hotReload.create(require)
-      .loggingEnabled(false) // TODO: option
+      .loggingEnabled(!!opts.hotLogging)
       .watch(scriptPath)
       .uncache(scriptPath, true)
       .reload(scriptPath, true)
@@ -42,9 +43,9 @@ Gu.prototype.reload = function (first) {
           f + " in scripts directory is not a function"
         );
       }
-      fn(this/*, this._state[f]*/);
+      fn(this);
       if (!first) {
-        log.info('Loaded handlers from', f);
+        log.info('Reloaded handlers from', f);
       }
     }
     catch (e) {
