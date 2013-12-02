@@ -1,4 +1,7 @@
-# gu [![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu) [![Dependency Status](https://david-dm.org/clux/gu.png)](https://david-dm.org/clux/gu)
+# gu
+[![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu)
+[![Dependency Status](https://david-dm.org/clux/gu.png)](https://david-dm.org/clux/gu)
+[![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://nodejs.org/api/documentation.html#documentation_stability_index)
 
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
