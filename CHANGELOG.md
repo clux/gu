@@ -1,3 +1,7 @@
+0.3.0 / 2014-03-03
+==================
+  * initial release to test out new hot-reload (older one caused watch errors newer node versions)
+
 0.2.0 / 2013-09-27
 ==================
   * `say` callback now always the first parameter in `.handle` functions
