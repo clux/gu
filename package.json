@@ -18,8 +18,7 @@
     "test": "tap test/*.js"
   },
   "dependencies": {
-    "logule": "~2.0.0",
-    "hot-reload": "~1.4.1-beta"
+    "logule": "~2.0.0"
   },
   "devDependencies": {
     "tap": "~0.4.4"
