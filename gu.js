@@ -3,12 +3,14 @@ var path = require('path');
 var hotReload = require('hot-reload');
 var Duplex = require('stream').Duplex;
 
-function Gu(scriptPath, files, opts) {
+function Gu(scriptPath, files, opts, injected) {
   if (!(this instanceof Gu)) {
     return new Gu(scriptPath, files, opts);
   }
   scriptPath = path.resolve(scriptPath);
   Duplex.call(this, {objectMode: true});
+
+  this.injected = injected || {};
   opts = opts || {};
 
   this.files = [];
@@ -43,12 +45,13 @@ Gu.prototype.reload = function (first) {
           f + " in scripts directory is not a function"
         );
       }
-      fn(this);
+      fn(this, this.injected);
       if (!first) {
         log.info('Reloaded handlers from', f);
       }
     }
     catch (e) {
+      // some files failed to load - ignore these scripts
       log.error('FAILED TO LOAD', f);
       log.error(e.stack);
     }
