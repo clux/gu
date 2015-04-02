@@ -1,4 +1,4 @@
-var log = require('logule').init(module);
+var smell = require('smell');
 var path = require('path');
 var hotReload = require('hot-reload');
 var Duplex = require('stream').Duplex;
@@ -18,6 +18,8 @@ function Gu(scriptPath, files, opts, injected) {
     var f = path.join(scriptPath, files[i]);
     this.files.push(f);
   }
+  this.log = smell();
+  this.verbose = !!opts.verbose;
 
   this.reload(true);
   if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
@@ -47,13 +49,13 @@ Gu.prototype.reload = function (first) {
       }
       fn(this, this.injected);
       if (!first) {
-        log.info('Reloaded handlers from', f);
+        this.log.info('Reloaded handlers from', f);
       }
     }
     catch (e) {
       // some files failed to load - ignore these scripts
-      log.error('FAILED TO LOAD', f);
-      log.error(e.stack);
+      this.log.error('FAILED TO LOAD', f);
+      this.log.error(e.stack);
     }
   }
 };
@@ -66,7 +68,9 @@ Gu.prototype._write = function (obj, encoding, cb) {
   for (var i = 0; i < this.handlers.length; i += 1) {
     var handler = this.handlers[i];
     if (handler.reg.test(msg)) {
-      log.trace(user + ':' + msg, '- matched:', handler.reg);
+      if (this.verbose) {
+        this.log.info(user + ':' + msg, '- matched:', handler.reg);
+      }
       var match = msg.match(handler.reg);
       var preparedSay = this.say.bind(this, user);
       var args = [preparedSay].concat(match.slice(1), obj.name || obj.user);
