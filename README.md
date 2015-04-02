@@ -47,7 +47,7 @@ Changing the handler in `love.js` will result in different behaviour without hav
 A more extensive example is avaiable in the [example directory](https://github.com/clux/gu/blob/master/example/).
 
 ## Complete examples
-The following personal bots are all built on `gu`:
+The following bots are built on `gu`:
 
 - [cleverbot-irc](http://github.com/clux/cleverbot-irc)
 - [wolfram-irc](http://github.com/clux/wolfram-irc)
