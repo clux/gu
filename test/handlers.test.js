@@ -56,7 +56,7 @@ test("hot reloading", function (t) {
         setTimeout(function () {
           process.exit(0); // can't easily kill reload watchers unfortunately
         }, 10);
-      }, 10)
+      }, 10);
     }, 10);
   }, 10);
 });

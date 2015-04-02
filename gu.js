@@ -1,6 +1,6 @@
 var log = require('logule').init(module);
 var path = require('path');
-//var hotReload = require('hot-reload');
+var hotReload = require('hot-reload');
 var Duplex = require('stream').Duplex;
 
 function Gu(scriptPath, files, opts, injected) {
@@ -20,15 +20,15 @@ function Gu(scriptPath, files, opts, injected) {
   }
 
   this.reload(true);
-  //if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
-  //  hotReload.create(require)
-  //    .loggingEnabled(!!opts.hotLogging)
-  //    .watch(scriptPath)
-  //    .uncache(scriptPath, true)
-  //    .reload(scriptPath, true)
-  //    .afterReload(this.reload.bind(this))
-  //    .start();
-  //}
+  if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
+    hotReload.create(require)
+      .loggingEnabled(!!opts.hotLogging)
+      .watch(scriptPath)
+      .uncache(scriptPath, true)
+      .reload(scriptPath, true)
+      .afterReload(this.reload.bind(this))
+      .start();
+  }
 }
 Gu.prototype = Object.create(Duplex.prototype);
 

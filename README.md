@@ -1,7 +1,7 @@
 # gu
-[![Build Status](https://secure.travis-ci.org/clux/gu.png)](http://travis-ci.org/clux/gu)
-[![Dependency Status](https://david-dm.org/clux/gu.png)](https://david-dm.org/clux/gu)
-[![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://nodejs.org/api/documentation.html#documentation_stability_index)
+[![npm status](http://img.shields.io/npm/v/gu.svg)](https://www.npmjs.org/package/gu)
+[![build status](https://secure.travis-ci.org/clux/gu.svg)](http://travis-ci.org/clux/gu)
+[![dependency status](https://david-dm.org/clux/gu.svg)](https://david-dm.org/clux/gu)
 
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
@@ -96,19 +96,14 @@ A few options can be passed along to the `gu` instance as the third parameter, t
 ## Installation
 
 ```bash
-$ npm install gu --save
+$ npm install gu
 ```
 
 ## Running tests
-Install development dependencies
+Install development dependencies and run test command
 
-```bash
+```sh
 $ npm install
-```
-
-Run the tests
-
-```bash
 $ npm test
 ```
 
