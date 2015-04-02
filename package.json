@@ -15,14 +15,20 @@
   ],
   "main": "gu.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "nodeunit --reporter=verbose test/*.js",
+    "precoverage": "jscoverage gu.js",
+    "coverage": "GU_COV=1 nodeunit --reporter=lcov test/*.js",
+    "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-    "logule": "~2.0.0",
+    "smell": "^2.0.0",
     "hot-reload": "1.4.2-beta"
   },
   "devDependencies": {
-    "tap": "~0.4.4"
+    "coveralls": "^2.11.2",
+    "jscoverage": "^0.5.9",
+    "nodeunit": "^0.9.1",
+    "sulfur": "^1.0.0"
   },
   "bugs": {
     "url": "http://github.com/clux/gu/issues"
