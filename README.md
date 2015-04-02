@@ -2,6 +2,7 @@
 [![npm status](http://img.shields.io/npm/v/gu.svg)](https://www.npmjs.org/package/gu)
 [![build status](https://secure.travis-ci.org/clux/gu.svg)](http://travis-ci.org/clux/gu)
 [![dependency status](https://david-dm.org/clux/gu.svg)](https://david-dm.org/clux/gu)
+[![coverage status](http://img.shields.io/coveralls/clux/gu.svg)](https://coveralls.io/r/clux/gu)
 
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
@@ -89,8 +90,19 @@ A few options can be passed along to the `gu` instance as the third parameter, t
 ```js
 {
   noReload: Boolean, // disable the hot-reload module (a must for handler tests)
-  hotLogging: Boolean // enable logging from the hot-reload module
+  hotLogging: Boolean, // enable logging from the hot-reload module
+  verbose: Boolean // enable regex match log when gu receives messages
 }
+```
+
+### Logging
+Emitted logs are available on the instance as `gu.log`. They are emitted in the form of [smell](https://github.com/clux/smell).
+
+To actually print them out, you should use [sulfur](https://github.com/clux/sulfur) as such:
+
+```js
+var sulfur = require('sulfur');
+sulfur.absorb(gu.log, 'gu');
 ```
 
 ## Installation

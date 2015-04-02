@@ -1,3 +1,9 @@
+0.4.0 / 2015-04-02
+==================
+  * Logs now exposed via [smell](https://github.com/clux/smell) emitter
+  * Added option `verbose` for whether or not to log regex match
+  * Tests now got coverage
+
 0.3.0 / 2014-03-03
 ==================
   * initial release to test out new hot-reload (older one caused watch errors newer node versions)
