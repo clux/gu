@@ -5,7 +5,7 @@ var Duplex = require('stream').Duplex;
 
 function Gu(scriptPath, files, opts, injected) {
   if (!(this instanceof Gu)) {
-    return new Gu(scriptPath, files, opts);
+    return new Gu(scriptPath, files, opts, injected);
   }
   scriptPath = path.resolve(scriptPath);
   Duplex.call(this, {objectMode: true});
@@ -40,6 +40,7 @@ Gu.prototype.reload = function (first) {
   // require all files on the passed in scripts list to reattach handlers
   for (var i = 0; i < this.files.length; i += 1) {
     var f = this.files[i];
+    // try catch to avoid reloaded-syntax errors to keep the bot online
     try {
       var fn = require(f);
       if (!fn || 'function' !== typeof fn) {

@@ -27,20 +27,22 @@ ircStream.pipe(gu).pipe(ircStream);
 The script path and the files (relative to the scriptpath) will be watched for changes, and is assumed to contain handlers exported behind a function.
 
 
-Then, put a file in your scriptpath, `like.js`, say, and add handlers therein:
+Then, put a file in your scriptpath, `love.js`, say, and add handlers therein:
 
 ```javascript
 module.exports = function (gu) {
-  gu.handle(/^i like your (\w*)$/, function (say, what) {
-    say('i has ' + what + ' :O');
+  gu.handle(/^what is (\w*)$/, function (say, match) {
+    if (match === 'love') {
+      say("baby don't hurt me");
+    }
   });
 };
 ```
 
 Then fire up the bot with `node bot.js`, navigate to the specified server and channel (in `ircOpts`),
-and try saying `botName: i like your charisma` in the channel.
+and try saying `botName: what is love` in the channel.
 
-Changing the handler in `like.js` will result in different behaviour without having to restart `bot.js`.
+Changing the handler in `love.js` will result in different behaviour without having to restart `bot.js`.
 
 A more extensive example is avaiable in the [example directory](https://github.com/clux/gu/blob/master/example/).
 
@@ -103,6 +105,14 @@ To actually print them out, you should use [sulfur](https://github.com/clux/sulf
 ```js
 var sulfur = require('sulfur');
 sulfur.absorb(gu.log, 'gu');
+```
+
+You can also log from gu handlers by calling the log methods `error`, `warn`, or `info` on `gu.log`:
+
+```js
+gu.handle(/^(.*)$/, function (say, match) {
+  gu.log.info("matched the everything handler with", match);
+});
 ```
 
 ## Installation
