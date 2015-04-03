@@ -91,7 +91,7 @@ Gu.prototype._read = function () {};
  * Say msg in the channel the matching handler last fired
  */
 Gu.prototype.say = function (user, msg) { // TODO: include name?
-  this.push({message: msg, user: user}); // can be _read later
+  this.push({ user: user, message: msg }); // can be _read later
 };
 
 /**
