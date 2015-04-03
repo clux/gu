@@ -21,7 +21,7 @@
     "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-    "smell": "^2.0.0",
+    "smell": "^2.0.2",
     "hot-reload": "1.4.2-beta"
   },
   "devDependencies": {
