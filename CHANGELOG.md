@@ -1,3 +1,9 @@
+0.5.0 / 2015-04-05
+==================
+  * Stream specification separates user and channel for better portability:
+    - `user` is now a user UID only
+    - `channel` is an optional channel UID
+
 0.4.0 / 2015-04-02
 ==================
   * Logs now exposed via [smell](https://github.com/clux/smell) emitter

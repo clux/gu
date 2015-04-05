@@ -65,6 +65,7 @@ Gu.prototype.reload = function (first) {
 Gu.prototype._write = function (obj, encoding, cb) {
   var msg = obj.message;
   var user = obj.user;
+  var chan = obj.channel;
 
   for (var i = 0; i < this.handlers.length; i += 1) {
     var handler = this.handlers[i];
@@ -73,7 +74,7 @@ Gu.prototype._write = function (obj, encoding, cb) {
         this.log.info(user + ':' + msg, '- matched:', handler.reg);
       }
       var match = msg.match(handler.reg);
-      var preparedSay = this.say.bind(this, user);
+      var preparedSay = this.say.bind(this, user, chan);
       var args = [preparedSay].concat(match.slice(1), obj.name || obj.user);
 
       handler.cb.apply(this, args);
@@ -90,8 +91,13 @@ Gu.prototype._read = function () {};
  * say
  * Say msg in the channel the matching handler last fired
  */
-Gu.prototype.say = function (user, msg) { // TODO: include name?
-  this.push({ user: user, message: msg }); // can be _read later
+Gu.prototype.say = function (user, chan, msg) { // TODO: include name?
+  if (chan) {
+    this.push({ user: user, channel: chan, message: msg });
+  }
+  else {
+    this.push({ user: user, message: msg });
+  }
 };
 
 /**

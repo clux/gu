@@ -13,17 +13,13 @@ exports.example = function (t) {
   });
   sulfur.absorb(exBot.log, 'gu');
 
-  var xs = [
-    {user: '#chan:clux', name: 'clux', message: "roll d8"},
-    {user: '#chan:aa', name: 'aa', message: 'weather oslo tuesday'}
-  ];
   var ys = [];
   exBot.on('data', function (y) {
     ys.push(y);
   });
-  xs.forEach(function (x) {
-    exBot.write(x);
-  });
+
+  exBot.write({user: 'clux', message: "roll d8"});
+  exBot.write({user: 'aa', message: 'weather oslo tuesday'});
 
   setTimeout(function () {
     t.equal(ys.length, 2, "got two messages");
@@ -51,13 +47,13 @@ exports.hotReload = function (t) {
   rBot.on('data', function (y) {
     ys.push(y);
   });
-  rBot.write({user: '#chan:clux', message: 'hi'});
+  rBot.write({user: 'clux', message: 'hi'});
 
   setTimeout(function () {
     t.equal(ys[0].message, "a", "first message uses first handler");
     fs.writeFileSync(tempFile, makeScript(h2));
     setTimeout(function () {
-      rBot.write({user: '#chan:clux', message: 'hi2'});
+      rBot.write({user: 'clux', message: 'hi2'});
       setTimeout(function () {
         t.equal(ys[1].message, "b", "second message uses second handler");
         fs.unwatchFile(tempFile);

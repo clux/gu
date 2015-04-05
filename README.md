@@ -64,16 +64,19 @@ Expected input objects:
 ```js
 {
   user: String, // unique identifier of user
+  channel: String, // unique group chat identifier (if relevant)
   message: String, // raw message to be matched by gu
 }
 ```
 
-Output objects are identical. The `user` property is passed stright through and is can be anything as long as it can be used to again identify the user to send the response to on the other end. For `irc-stream` it is either the string: "#chan:user" for a channel message or "user" for a personal message.
+Output objects are identical. As an example an example message from/to `irc-stream` can look like this `{ user: 'clux', channel: '#quake', message: 'hi' }` for a private message, the `channel` key is unset.
 
-An optional `name` property may be set on the input for the convenience of gu handlers - this name will be passed through to the handlers as the last argument and is assumed to be human readable.
+An optional `name` property may be set for the convenience of the stream handler (such as `xmpp-stream`). It is used when doing group chat highlighting without having to necessarily use the larg UID. For IRC it is unused.
 
-## Future
-Alternative transport modules.
+## Compatible Transports
+Best tested: [irc-stream](https://github.com/clux/irc-stream).
+
+Early prototype of [xmpp-stream](https://github.com/clux/xmpp-stream) also available.
 
 ## Caveats
 ### What files are reloaded
@@ -84,7 +87,7 @@ If you have multiple handler files in your `scriptdir`, then if one changes, all
 ### When things can still go wrong
 If you save one of the reload-watched files, and there's a syntax error, we will catch this error for you. An exception and a stack trace will be logged and all the handlers from the file with the error will be inactive.
 
-However, it is possible to save a file that looks valid but will have a runtime error, for instance referencing an undefined variable. This we will not guard on (otherwise we'd have to try-catch _everything_), and your bot will crash. Thus, you should lint on save to prevent this from happening.
+However, it is possible to save a file that looks valid but will have a runtime error, for instance referencing an undefined variable. This we will not guard on (otherwise we'd have to try-catch _everything_), and your bot will crash. Thus, you should use a fast-response linter to prevent this from happening.
 
 ## Options
 A few options can be passed along to the `gu` instance as the third parameter, these are:
