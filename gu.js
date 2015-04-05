@@ -71,11 +71,11 @@ Gu.prototype._write = function (obj, encoding, cb) {
     var handler = this.handlers[i];
     if (handler.reg.test(msg)) {
       if (this.verbose) {
-        this.log.info(user + ':' + msg, '- matched:', handler.reg);
+        this.log.info(user + ':', msg, '- matched:', handler.reg);
       }
       var match = msg.match(handler.reg);
       var preparedSay = this.say.bind(this, user, chan);
-      var args = [preparedSay].concat(match.slice(1), obj.name || obj.user);
+      var args = [preparedSay].concat(match.slice(1), user);
 
       handler.cb.apply(this, args);
       break; // match found - job's done
