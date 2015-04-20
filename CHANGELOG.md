@@ -1,3 +1,8 @@
+0.6.0 / 2015-04-20
+==================
+  * Replace `hot-reload` module with `chokidar`
+  * Added an `unwatch` method to stop watching the files (so process can exit)
+
 0.5.0 / 2015-04-05
 ==================
   * Stream specification separates user and channel for better portability:

@@ -1,6 +1,6 @@
 var smell = require('smell');
 var path = require('path');
-var hotReload = require('hot-reload');
+var chokidar = require('chokidar');
 var Duplex = require('stream').Duplex;
 
 function Gu(scriptPath, files, opts, injected) {
@@ -23,20 +23,26 @@ function Gu(scriptPath, files, opts, injected) {
 
   this.reload(true);
   if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
-    hotReload.create(require)
-      .loggingEnabled(!!opts.hotLogging)
-      .watch(scriptPath)
-      .uncache(scriptPath, true)
-      .reload(scriptPath, true)
-      .afterReload(this.reload.bind(this))
-      .start();
+    // TODO: can join on *.js in scriptPath to use chokidar globbing
+    this.watcher = chokidar.watch(scriptPath).on('change', this.reload.bind(this));
   }
 }
 Gu.prototype = Object.create(Duplex.prototype);
 
-// this should not be used by implementations
-Gu.prototype.reload = function (first) {
+// Private helpers for chokidar interface
+Gu.prototype.uncache = function () {
+  // stop handlers from being intercepted
   this.handlers = [];
+
+  // force reload of all files next time
+  this.files.forEach(function (f) {
+    delete require.cache[f];
+  });
+};
+Gu.prototype.reload = function (origin) {
+  this.log.info('Reloading script files after', origin, 'changed')
+  this.uncache();
+
   // require all files on the passed in scripts list to reattach handlers
   for (var i = 0; i < this.files.length; i += 1) {
     var f = this.files[i];
@@ -49,9 +55,7 @@ Gu.prototype.reload = function (first) {
         );
       }
       fn(this, this.injected);
-      if (!first) {
-        this.log.info('Reloaded handlers from', f);
-      }
+      this.log.info('Reloaded handlers from', f);
     }
     catch (e) {
       // some files failed to load - ignore these scripts
@@ -60,6 +64,12 @@ Gu.prototype.reload = function (first) {
     }
   }
 };
+Gu.prototype.unwatch = function () {
+  if (this.watcher) {
+    this.watcher.close();
+    delete this.watcher;
+  }
+}
 
 // write objects with: {user, message} keys
 Gu.prototype._write = function (obj, encoding, cb) {

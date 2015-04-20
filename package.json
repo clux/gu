@@ -21,8 +21,8 @@
     "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-    "smell": "^2.0.2",
-    "hot-reload": "1.4.2-beta"
+    "chokidar": "^1.0.1",
+    "smell": "^2.0.2"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",

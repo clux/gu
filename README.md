@@ -87,7 +87,7 @@ If you have multiple handler files in your `scriptdir`, then if one changes, all
 ### When things can still go wrong
 If you save one of the reload-watched files, and there's a syntax error, we will catch this error for you. An exception and a stack trace will be logged and all the handlers from the file with the error will be inactive.
 
-However, it is possible to save a file that looks valid but will have a runtime error, for instance referencing an undefined variable. This we will not guard on (otherwise we'd have to try-catch _everything_), and your bot will crash. Thus, you should use a fast-response linter to prevent this from happening.
+However, it is possible to save a file that looks valid but will have a runtime error, for instance referencing an undefined variable. This we will not guard on (otherwise we'd have to try-catch _everything_), and your bot will crash. Thus, you should either use a pre-save linter to prevent this from happening, or not change the live file until you know it passes lint.
 
 ## Options
 A few options can be passed along to the `gu` instance as the third parameter, these are:
@@ -95,7 +95,6 @@ A few options can be passed along to the `gu` instance as the third parameter, t
 ```js
 {
   noReload: Boolean, // disable the hot-reload module (a must for handler tests)
-  hotLogging: Boolean, // enable logging from the hot-reload module
   verbose: Boolean // enable regex match log when gu receives messages
 }
 ```
@@ -120,7 +119,7 @@ gu.handle(/^(.*)$/, function (say, match) {
 
 ## Installation
 
-```bash
+```sh
 $ npm install gu
 ```
 

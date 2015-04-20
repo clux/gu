@@ -36,7 +36,7 @@ exports.example = function (t) {
   }, 10);
 };
 
-exports.hotReload = function (t) {
+exports.reloadHandlers = function (t) {
   var h1 = 'gu.handle(/hi/, function (say) { say("a"); });';
   var h2 = 'gu.handle(/hi/, function (say) { say("b"); });';
   var makeScript = function (h) {
@@ -46,6 +46,7 @@ exports.hotReload = function (t) {
   var tempFile = join(scriptsPath, 'temp.js');
   fs.writeFileSync(tempFile, makeScript(h1));
   var rBot = new Gu(scriptsPath, ['temp.js']);
+  sulfur.absorb(rBot.log, 'gu');
 
   var ys = [];
   rBot.on('data', function (y) {
@@ -60,13 +61,76 @@ exports.hotReload = function (t) {
       rBot.write({user: 'clux', message: 'hi2'});
       setTimeout(function () {
         t.equal(ys[1].message, "b", "second message uses second handler");
-        fs.unwatchFile(tempFile);
-        fs.unlinkSync(tempFile);
+        rBot.unwatch();
         t.done();
-        setTimeout(function () {
-          process.exit(0); // can't easily kill reload watchers unfortunately
-        }, 10);
       }, 10);
+    }, 10);
+  }, 10);
+};
+
+exports.reloadError = function (t) {
+  var h1 = 'gu.handle(/hi/, function (say) { say("a"); });';
+  var h2 = 'var b = arst'; // reference error on load
+  var makeScript = function (h) {
+    return 'module.exports = function (gu) { ' + h + ' };';
+  };
+  var scriptsPath = join(__dirname, 'scripts');
+  var tempFile = join(scriptsPath, 'temp2.js');
+  fs.writeFileSync(tempFile, makeScript(h1));
+  var rBot = new Gu(scriptsPath, ['temp2.js']);
+  sulfur.absorb(rBot.log, 'gu');
+
+  var ys = [];
+  rBot.on('data', function (y) {
+    ys.push(y);
+  });
+  rBot.write({user: 'clux', message: 'hi'});
+
+  setTimeout(function () {
+    t.equal(ys[0].message, "a", "first message uses first handler");
+    fs.writeFileSync(tempFile, makeScript(h2));
+    setTimeout(function () {
+      rBot.write({user: 'clux', message: 'hi2'});
+      setTimeout(function () {
+        t.equal(ys.length, 1, "no second message since reload failed");
+        rBot.unwatch();
+        t.done();
+      }, 10);
+    }, 10);
+  }, 10);
+};
+
+exports.reloadRuntimeError = function (t) {
+  var h1 = 'gu.handle(/hi/, function (say) { say("a"); });';
+  var h2 = 'gu.handle(/hi/, function (say) { var b = arst; });'; // runtime error :(
+  var makeScript = function (h) {
+    return 'module.exports = function (gu) { ' + h + ' };';
+  };
+  var scriptsPath = join(__dirname, 'scripts');
+  var tempFile = join(scriptsPath, 'temp2.js');
+  fs.writeFileSync(tempFile, makeScript(h1));
+  var rBot = new Gu(scriptsPath, ['temp2.js']);
+  sulfur.absorb(rBot.log, 'gu');
+
+  var ys = [];
+  rBot.on('data', function (y) {
+    ys.push(y);
+  });
+  rBot.write({user: 'clux', message: 'hi'});
+
+  setTimeout(function () {
+    t.equal(ys[0].message, "a", "first message uses first handler");
+    fs.writeFileSync(tempFile, makeScript(h2));
+    setTimeout(function () {
+      try {
+        rBot.write({user: 'clux', message: 'hi2'});
+      }
+      catch (e) {
+        rBot.log.info('saw error on rBot.write:', e)
+        t.ok(/ReferenceError/.test(e), 'saw ReferenceError');
+        rBot.unwatch();
+        t.done();
+      }
     }, 10);
   }, 10);
 };
