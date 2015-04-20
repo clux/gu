@@ -1,7 +1,8 @@
-0.6.0 / 2015-04-20
+0.6.0 / 2015-04-XX
 ==================
   * Replace `hot-reload` module with `chokidar`
   * Added an `unwatch` method to stop watching the files (so process can exit)
+  * Working on a more robust error handling model
 
 0.5.0 / 2015-04-05
 ==================

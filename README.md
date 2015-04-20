@@ -85,9 +85,9 @@ The script path you specify to `gu` should only contain the handler functions. I
 If you have multiple handler files in your `scriptdir`, then if one changes, all these files will be reloaded, and any internal state in them will be cleared. To get around this, persist important state elsewhere.
 
 ### When things can still go wrong
-If you save one of the reload-watched files, and there's a syntax error, we will catch this error for you. An exception and a stack trace will be logged and all the handlers from the file with the error will be inactive.
+If you save one of the reload-watched files, and there's an error executing the code, the error is caught synchronously and you can carry on, but it's not really wise.
 
-However, it is possible to save a file that looks valid but will have a runtime error, for instance referencing an undefined variable. This we will not guard on (otherwise we'd have to try-catch _everything_), and your bot will crash. Thus, you should either use a pre-save linter to prevent this from happening, or not change the live file until you know it passes lint.
+Work is being considered to extend the error handling model so that we can safely shut down the process that deals with the handlers to ensure the bot stays online.
 
 ## Options
 A few options can be passed along to the `gu` instance as the third parameter, these are:

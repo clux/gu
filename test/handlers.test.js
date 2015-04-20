@@ -102,7 +102,7 @@ exports.reloadError = function (t) {
 
 exports.reloadRuntimeError = function (t) {
   var h1 = 'gu.handle(/hi/, function (say) { say("a"); });';
-  var h2 = 'gu.handle(/hi/, function (say) { var b = arst; });'; // runtime error :(
+  var h2 = 'gu.handle(/hi/, function (say) { var b = qwfp; });'; // runtime error
   var makeScript = function (h) {
     return 'module.exports = function (gu) { ' + h + ' };';
   };

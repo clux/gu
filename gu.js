@@ -21,7 +21,7 @@ function Gu(scriptPath, files, opts, injected) {
   this.log = smell();
   this.verbose = !!opts.verbose;
 
-  this.reload(true);
+  this.reload();
   if (!opts.noReload) { // hard to test gu when reload watchers keeps process alive
     // TODO: can join on *.js in scriptPath to use chokidar globbing
     this.watcher = chokidar.watch(scriptPath).on('change', this.reload.bind(this));
@@ -40,7 +40,9 @@ Gu.prototype.uncache = function () {
   });
 };
 Gu.prototype.reload = function (origin) {
-  this.log.info('Reloading script files after', origin, 'changed')
+  if (origin) {
+    this.log.info('Reloading script files after', origin, 'changed');
+  }
   this.uncache();
 
   // require all files on the passed in scripts list to reattach handlers
@@ -59,7 +61,7 @@ Gu.prototype.reload = function (origin) {
     }
     catch (e) {
       // some files failed to load - ignore these scripts
-      this.log.error('FAILED TO LOAD', f);
+      this.log.error('Failed to load', f);
       this.log.error(e.stack);
     }
   }
@@ -69,7 +71,7 @@ Gu.prototype.unwatch = function () {
     this.watcher.close();
     delete this.watcher;
   }
-}
+};
 
 // write objects with: {user, message} keys
 Gu.prototype._write = function (obj, encoding, cb) {
