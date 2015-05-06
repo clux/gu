@@ -2,7 +2,7 @@
   "name": "gu",
   "description": "Streaming bot makers library with regex handlers",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "repository": {
     "type": "git",
     "url": "clux/gu"
