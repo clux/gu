@@ -1,3 +1,7 @@
+0.6.1 / 2015-05-06
+==================
+  * Fix crash from broken context in `unload`
+
 0.6.0 / 2015-05-06
 ==================
   * **HOT CODE RELOADING AND BAD ERROR HANDLING REMOVED**

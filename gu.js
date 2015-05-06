@@ -19,7 +19,7 @@ function Gu(scriptPath, files, opts, injected) {
   }
   this.log = smell();
   this.verbose = !!opts.verbose;
-  this.unload();
+  this.handlers = [];
   this.load();
 }
 Gu.prototype = Object.create(Duplex.prototype);
@@ -30,12 +30,13 @@ Gu.prototype.unload = function () {
   this.handlers = [];
 
   // force reload of all files next time
-  this.files.forEach(function (f) {
+  for (var i = 0; i < this.files.length; i += 1) {
+    var f = this.files[i];
     if (require.cache[f]) {
       this.log.info('Unloaded handlers from', f);
     }
     delete require.cache[f];
-  });
+  }
 };
 Gu.prototype.load = function () {
   // require all files on the passed in scripts list to reattach handlers
