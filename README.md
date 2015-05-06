@@ -6,10 +6,9 @@
 
 Gu is a streaming bot makers library that you can pipe your transports to and from.
 
-It has three main features:
+It has two main features:
 
 - regular expression handlers in a style similar to [hubot](https://github.com/github/hubot) (but without all those annoying environment variables and coffee-script..)
-- hot code reloading of specified files (without the bot having to leave the server)
 - streaming input and output allows for easy control, extensibility and transport-less testing of handlers
 
 ## Usage
@@ -78,23 +77,11 @@ Best tested: [irc-stream](https://github.com/clux/irc-stream).
 
 Early prototype of [xmpp-stream](https://github.com/clux/xmpp-stream) also available.
 
-## Caveats
-### What files are reloaded
-The script path you specify to `gu` should only contain the handler functions. If you point the path at your `lib` dir, then it may reload all the files in that directory when you change one of your handlers.
-
-If you have multiple handler files in your `scriptdir`, then if one changes, all these files will be reloaded, and any internal state in them will be cleared. To get around this, persist important state elsewhere.
-
-### When things can still go wrong
-If you save one of the reload-watched files, and there's an error executing the code, the error is caught synchronously and you can carry on, but it's not really wise.
-
-Work is being considered to extend the error handling model so that we can safely shut down the process that deals with the handlers to ensure the bot stays online.
-
 ## Options
 A few options can be passed along to the `gu` instance as the third parameter, these are:
 
 ```js
 {
-  noReload: Boolean, // disable the hot-reload module (a must for handler tests)
   verbose: Boolean // enable regex match log when gu receives messages
 }
 ```

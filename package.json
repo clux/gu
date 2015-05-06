@@ -1,6 +1,6 @@
 {
   "name": "gu",
-  "description": "Streaming bot makers library with hot code reloading and regex handlers",
+  "description": "Streaming bot makers library with regex handlers",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "version": "0.5.1",
   "repository": {
@@ -9,8 +9,6 @@
   },
   "keywords": [
     "bot",
-    "regex",
-    "hotswap",
     "duplex"
   ],
   "main": "gu.js",
@@ -21,7 +19,6 @@
     "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-    "chokidar": "^1.0.1",
     "smell": "^2.0.2"
   },
   "devDependencies": {

@@ -1,8 +1,9 @@
-0.6.0 / 2015-04-XX
+0.6.0 / 2015-05-06
 ==================
-  * Replace `hot-reload` module with `chokidar`
-  * Added an `unwatch` method to stop watching the files (so process can exit)
-  * Working on a more robust error handling model
+  * **HOT CODE RELOADING AND BAD ERROR HANDLING REMOVED**
+  * Reload functionality should be implemented outside gu with chokidar
+    - process isolation of `gu` would provide a safer reload environment
+    - `load` and `unload` methods provide the base logic for watchers
 
 0.5.0 / 2015-04-05
 ==================
