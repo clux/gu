@@ -15,14 +15,12 @@
   "scripts": {
     "test": "nodeunit --reporter=verbose test/*.js",
     "precoverage": "jscoverage gu.js",
-    "coverage": "GU_COV=1 nodeunit --reporter=lcov test/*.js",
-    "coveralls": "npm run coverage | coveralls"
+    "coverage": "GU_COV=1 nodeunit --reporter=lcov test/*.js"
   },
   "dependencies": {
     "smell": "^2.0.2"
   },
   "devDependencies": {
-    "coveralls": "^2.11.2",
     "jscoverage": "^0.5.9",
     "nodeunit": "^0.9.1",
     "sulfur": "^1.0.0"

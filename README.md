@@ -110,13 +110,5 @@ gu.handle(/^(.*)$/, function (say, match) {
 $ npm install gu
 ```
 
-## Running tests
-Install development dependencies and run test command
-
-```sh
-$ npm install
-$ npm test
-```
-
 ## License
 MIT-Licensed. See LICENSE file for details.
