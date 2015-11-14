@@ -1,3 +1,7 @@
+0.6.2 / 2015-11-15
+==================
+  * Added `.npmignore`
+
 0.6.1 / 2015-05-06
 ==================
   * Fix crash from broken context in `unload`
